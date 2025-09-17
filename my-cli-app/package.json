@@ -1,0 +1,23 @@
+{
+  "name": "my-cli-app",
+  "version": "1.0.0",
+  "description": "A CLI application for processing CSV files and making API calls.",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/index.js",
+    "example": "npm run start -- --continueFromId=2"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.1",
+    "@types/node-fetch": "^2.6.13",
+    "typescript": "^4.5.4"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "license": "MIT"
+}
