@@ -1,0 +1,36 @@
+{
+  "allowCustomDataForDataTypeAny": true,
+  "namespace": {
+    "id": "Montoso"
+  },
+  "functions": [
+    {
+      "id": "ADD",
+      "name": "Montoso.ADD",
+      "description": "Adds two numbers.",
+      "helpUrl": "https://www.Montoso.com/help",
+      "parameters": [
+        {
+          "name": "first",
+          "description": "First number.",
+          "type": "number",
+          "dimensionality": "scalar"
+        },
+        {
+          "name": "second",
+          "description": "Second number.",
+          "type": "number",
+          "dimensionality": "scalar"
+        }
+      ],
+      "result": {
+        "type": "number",
+        "dimensionality": "scalar"
+      },
+      "options": {
+        "stream": false,
+        "cancelable": false
+      }
+    }
+  ]
+}
