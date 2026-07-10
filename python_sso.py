@@ -68,7 +68,7 @@ def main() -> None:
     try:
         tenant_id = "2f5d408f-3037-4aa2-b0f6-c2dadfb05497" #get_required_env("ENTRA_TENANT_ID")
         client_id = "651cdece-d8c6-4840-8c58-79acf2a8bb77" #get_required_env("ENTRA_CLIENT_ID")
-        scopes = ["openid","profile"] #parse_scopes(get_required_env("ENTRA_SCOPES"))
+        scopes = ["api://651cdece-d8c6-4840-8c58-79acf2a8bb77/access_as_user"] #parse_scopes(get_required_env("ENTRA_SCOPES"))
         endpoint = "https://api-app.politewave-fab973fc.australiaeast.azurecontainerapps.io" #get_required_env("API_ENDPOINT_URL")
 
         access_token, id_token = acquire_access_token_interactive(tenant_id, client_id, scopes)
