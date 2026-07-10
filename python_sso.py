@@ -21,7 +21,7 @@ def parse_scopes(raw_scopes: str) -> list[str]:
     return scopes
 
 
-def acquire_access_token_interactive(tenant_id: str, client_id: str, scopes: list[str]) -> str:
+def acquire_access_token_interactive(tenant_id: str, client_id: str, scopes: list[str]) -> tuple[str, str | None]:
     authority = f"https://login.microsoftonline.com/{tenant_id}"
     app = msal.PublicClientApplication(
         client_id=client_id,
@@ -40,14 +40,18 @@ def acquire_access_token_interactive(tenant_id: str, client_id: str, scopes: lis
         result = app.acquire_token_interactive(
             scopes=scopes,
             prompt="select_account",
+            redirect_uri="http://localhost",
         )
 
-    token = result.get("access_token") if result else None
-    if not token:
+    access_token = result.get("access_token") if result else None
+    id_token = result.get("id_token") if result else None
+
+    if not access_token:
         error = (result or {}).get("error", "unknown_error")
         description = (result or {}).get("error_description", "No error description returned.")
         raise RuntimeError(f"Token acquisition failed: {error} - {description}")
-    return token
+
+    return access_token, id_token
 
 
 def call_endpoint(url: str, bearer_token: str) -> requests.Response:
@@ -67,8 +71,14 @@ def main() -> None:
         scopes = ["openid","profile"] #parse_scopes(get_required_env("ENTRA_SCOPES"))
         endpoint = "https://api-app.politewave-fab973fc.australiaeast.azurecontainerapps.io" #get_required_env("API_ENDPOINT_URL")
 
-        token = acquire_access_token_interactive(tenant_id, client_id, scopes)
-        response = call_endpoint(endpoint, token)
+        access_token, id_token = acquire_access_token_interactive(tenant_id, client_id, scopes)
+
+        print("Access Token:")
+        print(access_token)
+        print("ID Token:")
+        print(id_token if id_token else "No id_token returned")
+
+        response = call_endpoint(endpoint, access_token)
 
         print(f"Status: {response.status_code}")
         print(response.text)
